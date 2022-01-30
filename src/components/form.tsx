@@ -88,8 +88,20 @@ const onSubmit = async (values: any, router: NextRouter, setStore?: (store: Stor
   } 
 }
 
+const initialFormState = {
+  portfolio: [{
+    name: 'ETH',
+    coingeckoId: 'ethereum',
+  }], 
+  computeWeights: true,
+  sentimentScore: false,
+  useJson: false
+}
+
 export default function IndexForm(props: { coin: Option, submit: number }) {
   const formRef: React.MutableRefObject<FormApi> = useRef({} as FormApi);
+  const { setStore } = useContext(StoreContext);
+  const router = useRouter();
 
   useEffect(() => {
     const { label, value } = props.coin;
@@ -101,17 +113,6 @@ export default function IndexForm(props: { coin: Option, submit: number }) {
     };
   }, [props.coin, props.submit]);
 
-  const initialFormState = {
-    portfolio: [{
-      name: 'ETH',
-      coingeckoId: 'ethereum',
-    }], 
-    computeWeights: true,
-    sentimentScore: false,
-    useJson: false
-  }
-  const { setStore } = useContext(StoreContext);
-  const router = useRouter();
   return (
     <Form
       initialValuesEqual={() => true}
@@ -135,7 +136,8 @@ export default function IndexForm(props: { coin: Option, submit: number }) {
         const errors = form.getState().errors;
         const hasErrors = errors && Object.entries(errors).length > 0;      
         return (
-          <form onSubmit={handleSubmit}>
+          <form 
+            onSubmit={handleSubmit}>
             { values && values.useJson ?
               <div className="items-end mb-4 w-full h-full">
                 <div className="form-control">
@@ -149,18 +151,18 @@ export default function IndexForm(props: { coin: Option, submit: number }) {
             : <>
                 <FieldArray name="portfolio">
                   {({ fields }) => fields.map((name, index) => (
-                    <div className="flex flex-grow justify-between flex-wrap items-end mb-4" key={name}>
-                      <span className="flex space-x-3 justify-start">
-                      <div className="form-control">
+                    <div className="flex flex-grow justify-between items-center" key={name}>
+                      <span className="flex w-[90%] sm:space-x-3 justify-center sm:justify-start flex-wrap">
+                      <div className="form-control mb-3 mr-1 w-full sm:w-48">
                         <Field
-                          className="input input-primary input-bordered"
+                          className="input input-primary input-bordered "
                           name={`${name}.name`}
                           component="input"
                           placeholder="Name"
                           validate={v => v ? undefined : 'Missing Input'}
                           />
                       </div>
-                      <div className="form-control">
+                      <div className="form-control mr-1 w-full sm:w-48">
                         <Field
                           className="input input-primary input-bordered min-w-95"
                           name={`${name}.coingeckoId`}
@@ -194,7 +196,7 @@ export default function IndexForm(props: { coin: Option, submit: number }) {
                         </div>
                         : ''}
                       </span>
-                      <span className="flex flex-end">
+                      <span className="flex flex-end w-[9%] mr-1">
                       <button
                         type="button"
                         onClick={() => fields.remove(index)}
@@ -353,7 +355,7 @@ export default function IndexForm(props: { coin: Option, submit: number }) {
                     className={`btn btn-primary ${submitting && 'loading'}`}
                     type="button"
                     onClick={form.reset}
-                    disabled={submitting || pristine}
+                    disabled={submitting}
                   >
                     Reset
                   </button>

@@ -13,7 +13,7 @@ import { CopyChartJSON } from '@/components/ui/SaveJSON'
 function Dashboard() {
   const { store } = React.useContext<StoreContextProps>(StoreContext);
   return (
-    <div className="h-screen overflow-auto">
+    <div className="h-screen">
       <TitleCard />
       <HeadlineStats data={store.tables.headlines} />
       <Panel size="h-1/2 m-2 overflow-x-auto" title="Performance Line Chart">
@@ -27,15 +27,15 @@ function Dashboard() {
       <div className="card bordered m-2" >
         <div className="card-body flex flex-col">
           <CopyChartJSON data={[store.pies]} />
-          <h2 className="card-title">Portfolio Split and Risk</h2>       
+          <h2 className="card-title sm:text-left text-center">Portfolio Split and Risk</h2>       
         </div>
         <div className="flex h-full mb-10 flex-row flex-wrap justify-center items-center">
           <div className="w-1/3 m-3 h-96 flex flex-col" style={{ minWidth: '400px' }}>
-            <h3 className="ml-2 w-full mb-3">Starting Asset Ratios:</h3>
+            <h3 className="ml-2 w-full mb-3 sm:text-left text-center">Starting Asset Ratios:</h3>
             <PieChart data={store.pies.ratio}/>
           </div>
           <div className="w-1/3 m-3 h-96 flex flex-col" style={{ minWidth: '400px' }}>
-            <h3 className="ml-2 w-full mb-3">Marginal Contribution to Total Risk:</h3>
+            <h3 className="ml-2 w-full mb-3 sm:text-left text-center">Marginal Contribution to Total Risk:</h3>
             <PieChart data={store.pies.mctr}/>
           </div>
         </div>
@@ -47,7 +47,6 @@ function Dashboard() {
         </div>
         <div className="flex h-full mb-10 flex-row flex-wrap justify-center items-center">
           <div className="w-1/3 m-3 h-96 flex flex-col" style={{ minWidth: '400px' }}>
-            <h3 className="ml-2 w-full mb-3">Correlation:</h3>  
             <HeatMap
               data={store.heatmaps.correlation.data}
               keys={store.heatmaps.correlation.keys}

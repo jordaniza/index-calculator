@@ -60,7 +60,7 @@ export const CopyChartJSON = (props: { data: unknown[] }): JSX.Element => {
   return (
       <button
         type="button"
-        className="btn btn-primary btn-xs absolute max-w-1/2 right-5" 
+        className="btn btn-primary btn-xs absolute sm:right-5 sm:top-5 bottom-5  max-w-1/2" 
         onClick={click}>Export
       </button>
     )
